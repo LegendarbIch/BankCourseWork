@@ -32,7 +32,7 @@ public class OperationService {
                                             + " WHERE cart_number = " + toFrom.getCartNumber());
             PreparedStatement statementOperation =
                     conn.prepareStatement("INSERT INTO bank.account_operation VALUES "
-                            + AuthContext.getBankAccount().getCartNumber() + "," + toFrom.getCartNumber() + "," + amount + "," + Date.valueOf(LocalDate.now()));
+                            + "(" + AuthContext.getBankAccount().getCartNumber() + "," + toFrom.getCartNumber() + "," + amount + "," + Date.valueOf(LocalDate.now()) + ")");
             statementWho.executeUpdate();
             statementToFrom.executeUpdate();
             statementOperation.executeUpdate();
@@ -66,7 +66,7 @@ public class OperationService {
             PreparedStatement statement = conn.prepareStatement("UPDATE bank.bank_account SET balance=balance+" + amount + " WHERE cart_number=" + AuthContext.getBankAccount().getCartNumber());
             PreparedStatement statementOperation =
                     conn.prepareStatement("INSERT INTO bank.account_operation VALUES "
-                            + "(" +AuthContext.getBankAccount().getCartNumber() + "," + AuthContext.getBankAccount().getCartNumber() + "," + amount + "," + LocalDate.now() + ")");
+                            + "(" +AuthContext.getBankAccount().getCartNumber() + "," + AuthContext.getBankAccount().getCartNumber() + "," + amount + "," + Date.valueOf(LocalDate.now()) + ")");
             statement.executeUpdate();
             statementOperation.executeUpdate();
             conn.commit();

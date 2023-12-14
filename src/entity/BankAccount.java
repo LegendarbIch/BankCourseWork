@@ -1,12 +1,12 @@
 package entity;
 
 public class BankAccount {
-    public BankAccount(String name, Long phoneNumber, long cartNumber, int pincode) {
+    public BankAccount(String name, Long phoneNumber, long cartNumber, int pincode, int balance) {
         this.name = name;
         this.cartNumber = cartNumber;
         this.phoneNumber = phoneNumber;
         this.pincode = pincode;
-        balance = 0;
+        this.balance = balance;
     }
 
     private final String name;
@@ -40,5 +40,16 @@ public class BankAccount {
     }
     public void setBalance(int total) {
         this.balance = total;
+    }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "name='" + name + '\'' +
+                ", cartNumber=" + cartNumber +
+                ", phoneNumber=" + phoneNumber +
+                ", balance=" + balance +
+                ", pincode=" + pincode +
+                '}';
     }
 }

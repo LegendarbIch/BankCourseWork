@@ -1,4 +1,7 @@
 import auth.AuthContext;
+import dto.BankAccountDTO;
+import entity.BankAccount;
+import repository.BankAccountRepository;
 import service.BankAccountService;
 import service.OperationService;
 
@@ -44,6 +47,8 @@ public class StarterBoot {
                     boolean auth = bankService.auth(cardName, pinCode);
                     if (auth) {
                         drawUserAccountMenu();
+                    } else {
+                        drawMenu();
                     }
                 }
                 case (2) -> {
@@ -53,7 +58,10 @@ public class StarterBoot {
                     long phone = scanner.nextLong();
                     System.out.println("------  Придумайте пин-код -----");
                     int pinCode = scanner.nextInt();
-                    bankService.createAccount(name, phone, pinCode);
+                    BankAccount account = bankService.createAccount(name, phone, pinCode);
+                    BankAccountDTO dto = new BankAccountDTO(account.getName(), account.getPhoneNumber(), account.getCartNumber(), account.getBalance());
+                    System.out.println("Ваши данные:");
+                    System.out.println(dto);
                     drawMenu();
                 }
 
@@ -66,6 +74,7 @@ public class StarterBoot {
         System.out.println("--------------------1.Положить деньги на счёт----------------------");
         System.out.println("---------------------2.Снять деньги со счёта-----------------------");
         System.out.println("-----------------3.Перевести деньги на чужой счёт------------------");
+        System.out.println("----------------------4.Просмотр баланса---------------------------");
         System.out.println("-------------------------------------------------------------------");
         choice2();
     }
@@ -79,15 +88,33 @@ public class StarterBoot {
                     System.out.println("-----------Какую сумму вы положите?-----------");
                     int sum = scanner.nextInt();
                     operationService.replenishment(sum);
-                    AuthContext.getBankAccount().toString();
+                    System.out.println("-----------Успешно-----------");
+                    System.out.println(AuthContext.getBankAccount().toString());
+                    drawUserAccountMenu();
                 }
                 case (2) -> {
-
+                    System.out.println("-----------Какую сумму вы снимите?-----------");
+                    int sum = scanner.nextInt();
+                    operationService.withdraw(sum);
+                    System.out.println("-----------Успешно-----------");
+                    System.out.println(AuthContext.getBankAccount().toString());
+                    drawUserAccountMenu();
                 }
                 case (3) -> {
-
+                    System.out.println("-----------Кому вы переводите? Введите номер карты-----------");
+                    Long cart = scanner.nextLong();
+                    System.out.println("-----------------Какую сумму вы переводите?------------------");
+                    int amount = scanner.nextInt();
+                    operationService.remittance(bankService.getAccountByCartNumber(cart), amount);
+                    System.out.println("-----------Успешно-----------");
+                    System.out.println(AuthContext.getBankAccount().toString());
+                    drawUserAccountMenu();
                 }
-
+                case (4) -> {
+                    System.out.println("-----------Ваш баланс-----------");
+                    System.out.println(AuthContext.getBankAccount().toString());
+                    drawMenu();
+                }
             }
         }
     }
