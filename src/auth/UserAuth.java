@@ -11,7 +11,6 @@ public class UserAuth extends Thread{
     public void auth() {
         synchronized (this) {
             this.start();
-            this.setDaemon(true);
             setAuth(true);
         }
     }

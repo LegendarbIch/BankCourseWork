@@ -4,6 +4,7 @@ import auth.AuthContext;
 import auth.UserAuth;
 import com.sun.security.auth.UserPrincipal;
 import db.PostgresDBConnector;
+import dto.BankAccountDTO;
 import entity.BankAccount;
 import repository.BankAccountRepository;
 
@@ -21,18 +22,18 @@ public class BankAccountService {
         this.repository = repository;
     }
 
-    public void createAccount(String fullName, int phoneNumber, int pincode) {
+    public void createAccount(String fullName, long phoneNumber, int pincode) {
         try {
-            int cartNumber = (int) (Math.random() + 100000000);
+            long cartNumber = (long) (Math.random() + 100000000);
             if (repository.findAccountByCardNumber(cartNumber) == null) {
                 BankAccount bankAccount = new BankAccount(fullName, phoneNumber, cartNumber, pincode);
                 assert conn != null;
                 PreparedStatement statement = conn.prepareStatement("INSERT INTO bank.bank_account VALUES (?,?,?,?,?)");
                 statement.setString(1, fullName);
-                statement.setInt(2, phoneNumber);
+                statement.setLong(2, phoneNumber);
                 statement.setInt(3, bankAccount.getBalance());
                 statement.setInt(4, pincode);
-                statement.setInt(5, cartNumber);
+                statement.setLong(5, cartNumber);
                 statement.executeUpdate();
             } else {
                 createAccount(fullName, phoneNumber, pincode);
@@ -41,9 +42,11 @@ public class BankAccountService {
             e.printStackTrace();
         }
     }
-    public boolean auth(int cartNumber, int pincode) {
+    public boolean auth(Long cartNumber, int pincode) {
         assert conn != null;
-        if (repository.findAccountByPinCodeAndCardNumber(cartNumber, pincode) != null) {
+        BankAccountDTO account = repository.findAccountByPinCodeAndCardNumber(cartNumber, pincode);
+        if (account != null) {
+            AuthContext.setAuthContext(new BankAccount(account.getName(), account.getPhoneNumber(), account.getCartNumber(), pincode));
             AuthContext.getAuthContext().auth();
             return true;
         }

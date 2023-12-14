@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class BankAccountRepository {
     private final Connection conn = PostgresDBConnector.getConnection();
 
-    public BankAccountDTO findAccountByCardNumber(int cardNumber) {
+    public BankAccountDTO findAccountByCardNumber(Long cardNumber) {
         try {
             assert conn != null;
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM bank.bank_account WHERE bank.bank_account.cart_number=" + cardNumber);
@@ -25,7 +25,7 @@ public class BankAccountRepository {
         return null;
     }
 
-    public BankAccountDTO findAccountByPinCodeAndCardNumber(int cardNumber, int pincode) {
+    public BankAccountDTO findAccountByPinCodeAndCardNumber(Long cardNumber, int pincode) {
         try {
             assert conn != null;
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM bank.bank_account WHERE" +
@@ -39,10 +39,10 @@ public class BankAccountRepository {
         return null;
     }
 
-    private static BankAccountDTO getDto(int cardNumber, ResultSet resultSet) throws SQLException {
+    private static BankAccountDTO getDto(Long cardNumber, ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             String name = resultSet.getString("name");
-            int phoneNumber = resultSet.getInt("phone_number");
+            Long phoneNumber = resultSet.getLong("phone_number");
             int balance = resultSet.getInt("balance");
             return new BankAccountDTO(name, phoneNumber, cardNumber, balance);
         }

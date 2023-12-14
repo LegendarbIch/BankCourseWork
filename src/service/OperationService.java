@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
 
 public class OperationService {
@@ -62,10 +63,10 @@ public class OperationService {
             assert conn != null;
             conn.setAutoCommit(false);
             conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            PreparedStatement statement = conn.prepareStatement("UPDATE bank.bank_account SET balance+" + amount + " WHERE cart_number=" + AuthContext.getBankAccount().getCartNumber());
+            PreparedStatement statement = conn.prepareStatement("UPDATE bank.bank_account SET balance=balance+" + amount + " WHERE cart_number=" + AuthContext.getBankAccount().getCartNumber());
             PreparedStatement statementOperation =
                     conn.prepareStatement("INSERT INTO bank.account_operation VALUES "
-                            + AuthContext.getBankAccount().getCartNumber() + "," + AuthContext.getBankAccount().getCartNumber() + "," + amount + "," + Date.valueOf(LocalDate.now()));
+                            + "(" +AuthContext.getBankAccount().getCartNumber() + "," + AuthContext.getBankAccount().getCartNumber() + "," + amount + "," + LocalDate.now() + ")");
             statement.executeUpdate();
             statementOperation.executeUpdate();
             conn.commit();

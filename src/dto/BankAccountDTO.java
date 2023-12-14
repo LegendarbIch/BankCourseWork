@@ -1,8 +1,10 @@
 package dto;
 
+import entity.BankAccount;
+
 public class BankAccountDTO{
 
-    public BankAccountDTO(String name, int phoneNumber, int cartNumber, int balance) {
+    public BankAccountDTO(String name, Long phoneNumber, Long cartNumber, int balance) {
         this.name = name;
         this.cartNumber = cartNumber;
         this.phoneNumber = phoneNumber;
@@ -11,9 +13,9 @@ public class BankAccountDTO{
 
     private final String name;
 
-    private final int cartNumber;
+    private final Long cartNumber;
 
-    private final int phoneNumber;
+    private final Long phoneNumber;
 
     private int balance;
 
@@ -21,11 +23,11 @@ public class BankAccountDTO{
         return name;
     }
 
-    public int getCartNumber() {
+    public Long getCartNumber() {
         return cartNumber;
     }
 
-    public int getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -35,5 +37,14 @@ public class BankAccountDTO{
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "Имя:           '" + name + '\n' +
+                "Номер карты:    " + cartNumber + '\n' +
+                "Номер телефона: " + phoneNumber + '\n' +
+                "Баланс:         " + balance;
     }
 }

@@ -1,7 +1,7 @@
 package entity;
 
 public class BankAccount {
-    public BankAccount(String name, int phoneNumber, int cartNumber, int pincode) {
+    public BankAccount(String name, Long phoneNumber, long cartNumber, int pincode) {
         this.name = name;
         this.cartNumber = cartNumber;
         this.phoneNumber = phoneNumber;
@@ -11,9 +11,9 @@ public class BankAccount {
 
     private final String name;
 
-    private final int cartNumber;
+    private final Long cartNumber;
 
-    private final int phoneNumber;
+    private final Long phoneNumber;
 
     private int balance;
 
@@ -27,11 +27,11 @@ public class BankAccount {
         return name;
     }
 
-    public int getCartNumber() {
+    public Long getCartNumber() {
         return cartNumber;
     }
 
-    public int getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 

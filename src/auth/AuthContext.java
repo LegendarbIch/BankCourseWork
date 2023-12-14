@@ -7,7 +7,7 @@ public class AuthContext {
     private static final UserAuth authContext = new UserAuth();
     private static BankAccount bankAccount;
 
-    public AuthContext(BankAccount bankAccount) {
+    public static void setAuthContext(BankAccount bankAccount) {
         AuthContext.bankAccount = bankAccount;
     }
 

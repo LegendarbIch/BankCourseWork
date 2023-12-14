@@ -1,3 +1,4 @@
+import auth.AuthContext;
 import service.BankAccountService;
 import service.OperationService;
 
@@ -11,7 +12,7 @@ public class StarterBoot {
 
     private final BankAccountService bankService;
     private final OperationService operationService;
-
+    private final Scanner scanner = new Scanner(System.in);
     private int methodCount = 0;
 
     public StarterBoot(BankAccountService bankService, OperationService operationService) {
@@ -32,21 +33,12 @@ public class StarterBoot {
 
     private void choice() throws IOException {
         synchronized (this) {
-            Scanner scanner = new Scanner(System.in);
-            int num = 0;
-            try {
-                num = scanner.nextInt();
-            } catch (Exception e) {
-                switch (methodCount) {
-                    case (1) -> drawMenu();
-                    case (2) -> drawUserAccountMenu();
-                }
-            }
+            int num = getNum();
             switch (num) {
                 case (0) -> drawMenu();
                 case (1) -> {
                     System.out.println("------Введите номер карты-----");
-                    int cardName = scanner.nextInt();
+                    Long cardName = scanner.nextLong();
                     System.out.println("------  Теперь пин-код  -----");
                     int pinCode = scanner.nextInt();
                     boolean auth = bankService.auth(cardName, pinCode);
@@ -56,22 +48,61 @@ public class StarterBoot {
                 }
                 case (2) -> {
                     System.out.println("------      Введите ФИО    -----");
-                    String name = scanner.nextLine();
-                    scanner.next();
+                    String name = scanner.next();
                     System.out.println("------Введите номер телефона-----");
-                    int phone = scanner.nextInt();
-                    scanner.nextLine();
+                    long phone = scanner.nextLong();
                     System.out.println("------  Придумайте пин-код -----");
                     int pinCode = scanner.nextInt();
                     bankService.createAccount(name, phone, pinCode);
                     drawMenu();
                 }
+
             }
         }
     }
 
-    private void drawUserAccountMenu() {
+    private void drawUserAccountMenu() throws IOException {
+        System.out.println("-----------------------------БАНК----------------------------------");
+        System.out.println("--------------------1.Положить деньги на счёт----------------------");
+        System.out.println("---------------------2.Снять деньги со счёта-----------------------");
+        System.out.println("-----------------3.Перевести деньги на чужой счёт------------------");
+        System.out.println("-------------------------------------------------------------------");
+        choice2();
     }
 
+    private void choice2() throws IOException {
+        synchronized (this) {
+            int num = getNum();
+            switch (num) {
+                case (0) -> drawMenu();
+                case (1) -> {
+                    System.out.println("-----------Какую сумму вы положите?-----------");
+                    int sum = scanner.nextInt();
+                    operationService.replenishment(sum);
+                    AuthContext.getBankAccount().toString();
+                }
+                case (2) -> {
+
+                }
+                case (3) -> {
+
+                }
+
+            }
+        }
+    }
+
+    private int getNum() throws IOException {
+        int num = 0;
+        try {
+            num = scanner.nextInt();
+        } catch (Exception e) {
+            switch (methodCount) {
+                case (1) -> drawMenu();
+                case (2) -> drawUserAccountMenu();
+            }
+        }
+        return num;
+    }
 
 }
