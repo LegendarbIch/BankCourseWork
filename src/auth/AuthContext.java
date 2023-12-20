@@ -1,6 +1,4 @@
 package auth;
-
-import dto.BankAccountDTO;
 import entity.BankAccount;
 
 public class AuthContext {

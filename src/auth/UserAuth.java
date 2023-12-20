@@ -1,7 +1,5 @@
 package auth;
 
-import java.sql.Statement;
-
 public class UserAuth extends Thread{
     private boolean isAuth ;
 

@@ -1,24 +1,19 @@
 import auth.AuthContext;
 import dto.BankAccountDTO;
 import entity.BankAccount;
-import repository.BankAccountRepository;
 import service.BankAccountService;
 import service.OperationService;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.util.Objects;
 import java.util.Scanner;
 
-public class StarterBoot {
+public class BankStarterBoot {
 
     private final BankAccountService bankService;
     private final OperationService operationService;
     private final Scanner scanner = new Scanner(System.in);
     private int methodCount = 0;
 
-    public StarterBoot(BankAccountService bankService, OperationService operationService) {
+    public BankStarterBoot(BankAccountService bankService, OperationService operationService) {
         this.bankService = bankService;
         this.operationService = operationService;
 
@@ -54,6 +49,7 @@ public class StarterBoot {
                 case (2) -> {
                     System.out.println("------      Введите ФИО    -----");
                     String name = scanner.next();
+                    scanner.nextLine();
                     System.out.println("------Введите номер телефона-----");
                     long phone = scanner.nextLong();
                     System.out.println("------  Придумайте пин-код -----");
@@ -112,8 +108,9 @@ public class StarterBoot {
                 }
                 case (4) -> {
                     System.out.println("-----------Ваш баланс-----------");
+                    AuthContext.setAuthContext(bankService.getAccountByCartNumber(AuthContext.getBankAccount().getCartNumber()));
                     System.out.println(AuthContext.getBankAccount().toString());
-                    drawMenu();
+                    drawUserAccountMenu();
                 }
             }
         }

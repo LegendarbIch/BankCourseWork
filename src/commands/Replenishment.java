@@ -15,6 +15,6 @@ public class Replenishment implements Command {
 
     @Override
     public void execute() {
-        bankAccount.setBalance(bankAccount.getBalance() - amount);
+        bankAccount.setBalance(bankAccount.getBalance() + amount);
     }
 }

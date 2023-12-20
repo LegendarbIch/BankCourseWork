@@ -17,7 +17,6 @@ public class AccountOperation {
         this.amount = amount;
         this.date = date;
     }
-
     public int getCartNumber() {
         return cartNumber;
     }

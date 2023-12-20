@@ -8,7 +8,7 @@ public class PostgresDBConnector {
 
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "mangalib");
         } catch (SQLException e) {
             e.printStackTrace();
         }

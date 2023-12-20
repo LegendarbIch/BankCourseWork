@@ -16,6 +16,4 @@ public class Bank {
         command.execute();
         return bankAccount;
     }
-
-
 }

@@ -1,7 +1,5 @@
 package dto;
 
-import entity.BankAccount;
-
 public class BankAccountDTO{
 
     public BankAccountDTO(String name, Long phoneNumber, Long cartNumber, int balance) {

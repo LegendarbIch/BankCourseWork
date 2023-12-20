@@ -1,4 +1,4 @@
-package repository;
+package db.repository;
 
 import db.PostgresDBConnector;
 import dto.BankAccountDTO;
@@ -20,11 +20,24 @@ public class BankAccountRepository {
             BankAccountDTO accountDTO = getDto(cardNumber, resultSet);
             if (accountDTO != null) return accountDTO;
         } catch (SQLException e) {
-             e.getCause();
+             throw new RuntimeException(e);
         }
         return null;
     }
-
+    public void saveAccount(BankAccount account) {
+        try {
+            assert conn != null;
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO bank.bank_account VALUES (?,?,?,?,?)");
+            statement.setString(1, account.getName());
+            statement.setLong(2, account.getPhoneNumber());
+            statement.setInt(3, account.getBalance());
+            statement.setInt(4, account.getPincode());
+            statement.setLong(5, account.getCartNumber());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public BankAccountDTO findAccountByPinCodeAndCardNumber(Long cardNumber, int pincode) {
         try {
             assert conn != null;
@@ -34,12 +47,11 @@ public class BankAccountRepository {
             BankAccountDTO accountDTO = getDto(cardNumber, resultSet);
             if (accountDTO != null) return accountDTO;
         } catch (SQLException e) {
-            e.getCause();
+            throw new RuntimeException(e);
         }
         return null;
     }
-
-    private static BankAccountDTO getDto(Long cardNumber, ResultSet resultSet) throws SQLException {
+    private BankAccountDTO getDto(Long cardNumber, ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             String name = resultSet.getString("name");
             Long phoneNumber = resultSet.getLong("phone_number");

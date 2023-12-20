@@ -22,6 +22,9 @@ public class BankAccount {
     public void setPincode(int pincode) {
         this.pincode = pincode;
     }
+    public int getPincode() {
+        return pincode;
+    }
 
     public String getName() {
         return name;
@@ -44,12 +47,10 @@ public class BankAccount {
 
     @Override
     public String toString() {
-        return "BankAccount{" +
-                "name='" + name + '\'' +
-                ", cartNumber=" + cartNumber +
-                ", phoneNumber=" + phoneNumber +
-                ", balance=" + balance +
-                ", pincode=" + pincode +
-                '}';
+        return  "name         " + name + '\n' +
+                "cartNumber   " + cartNumber + '\n' +
+                "phoneNumber  " + phoneNumber + '\n' +
+                "balance      " + balance + '\n';
+
     }
 }
